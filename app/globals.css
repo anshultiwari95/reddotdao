@@ -10,17 +10,40 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
   overflow-x: hidden;
   font-family: 'Inter', sans-serif;
-  color: #ffffff;
   margin: 0;
   padding: 0;
 }
 
 /* Hide scrollbars completely */
 ::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ef4444;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}
+
+/* Hide scrollbars but keep functionality */
+.scroll-smooth {
+  scroll-behavior: smooth;
 }
 
 body,
@@ -40,6 +63,9 @@ div {
   --youtube-light-gray: #606060;
   --youtube-white: #ffffff;
   --youtube-black: #000000;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 /* YouTube-style button animations */
@@ -141,7 +167,9 @@ div {
 
 /* YouTube-style container */
 .youtube-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* YouTube-style section */
@@ -293,5 +321,294 @@ div {
   /* Large desktop optimizations */
   .youtube-container {
     max-width: 80rem;
+  }
+}
+
+/* RainbowKit custom styles */
+[data-rk] {
+  --rk-connect-button-background: #ef4444 !important;
+  --rk-connect-button-background-hover: #dc2626 !important;
+  --rk-connect-button-border-radius: 8px !important;
+  --rk-connect-button-font-weight: 600 !important;
+  --rk-connect-button-padding: 8px 16px !important;
+}
+
+/* Full screen sections */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Snap scrolling */
+.snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Responsive padding for sections */
+@media (max-width: 640px) {
+  .py-20 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 641px) {
+  .py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* Custom modal styling for YouTube theme */
+[data-rk] .rk-modal {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-rk] .rk-modal-content {
+  background: #1a1a1a !important;
+  border: 1px solid #ef4444 !important;
+  border-radius: 12px !important;
+  color: white !important;
+}
+
+[data-rk] .rk-modal-header {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+[data-rk] .rk-modal-close {
+  color: white !important;
+}
+
+[data-rk] .rk-connect-button {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+[data-rk] .rk-connect-button:hover {
+  background: #dc2626 !important;
+  transform: scale(1.05) !important;
+}
+
+[data-rk] .rk-wallet-option {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  transition: all 0.2s !important;
+}
+
+[data-rk] .rk-wallet-option:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.02) !important;
+}
+
+[data-rk] .rk-wallet-option-icon {
+  filter: brightness(0) invert(1) !important;
+}
+
+[data-rk] .rk-text {
+  color: white !important;
+}
+
+[data-rk] .rk-text-secondary {
+  color: #9ca3af !important;
+}
+
+/* More specific RainbowKit selectors */
+[data-rk] [data-testid="rk-modal"] {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-rk] [data-testid="rk-modal"] > div {
+  background: #1a1a1a !important;
+  border: 1px solid #ef4444 !important;
+  border-radius: 12px !important;
+  color: white !important;
+}
+
+[data-rk] [data-testid="rk-modal"] h1,
+[data-rk] [data-testid="rk-modal"] h2,
+[data-rk] [data-testid="rk-modal"] h3 {
+  color: white !important;
+}
+
+[data-rk] [data-testid="rk-modal"] p {
+  color: #9ca3af !important;
+}
+
+[data-rk] [data-testid="rk-modal"] button {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+[data-rk] [data-testid="rk-modal"] button:hover {
+  background: #dc2626 !important;
+  transform: scale(1.05) !important;
+}
+
+[data-rk] [data-testid="rk-modal"] [role="button"] {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  transition: all 0.2s !important;
+}
+
+[data-rk] [data-testid="rk-modal"] [role="button"]:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.02) !important;
+}
+
+/* Override RainbowKit's default styles */
+[data-rk] * {
+  font-family: inherit !important;
+}
+
+[data-rk] .rk-modal-overlay {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-rk] .rk-modal-container {
+  background: #1a1a1a !important;
+  border: 1px solid #ef4444 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.25) !important;
+}
+
+[data-rk] .rk-modal-header {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 1rem !important;
+}
+
+[data-rk] .rk-modal-body {
+  background: #1a1a1a !important;
+  color: white !important;
+  padding: 1.5rem !important;
+}
+
+[data-rk] .rk-modal-footer {
+  background: #1a1a1a !important;
+  border-top: 1px solid rgba(239, 68, 68, 0.2) !important;
+  padding: 1rem !important;
+}
+
+/* Wallet option styling */
+[data-rk] .rk-wallet-option,
+[data-rk] [data-testid="wallet-option"] {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 1rem !important;
+  margin: 0.5rem 0 !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+
+[data-rk] .rk-wallet-option:hover,
+[data-rk] [data-testid="wallet-option"]:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.02) !important;
+}
+
+[data-rk] .rk-wallet-option-icon,
+[data-rk] [data-testid="wallet-option"] img {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Text styling */
+[data-rk] .rk-text,
+[data-rk] [data-testid="rk-modal"] * {
+  color: white !important;
+}
+
+[data-rk] .rk-text-secondary,
+[data-rk] [data-testid="rk-modal"] p {
+  color: #9ca3af !important;
+}
+
+/* Button styling */
+[data-rk] .rk-button,
+[data-rk] [data-testid="rk-modal"] button {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  border: none !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+
+[data-rk] .rk-button:hover,
+[data-rk] [data-testid="rk-modal"] button:hover {
+  background: #dc2626 !important;
+  transform: scale(1.05) !important;
+}
+
+/* Custom container for YouTube theme */
+.youtube-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .youtube-container {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .youtube-container {
+    padding: 0 4rem;
+  }
+}
+
+/* Full screen sections */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Snap scrolling */
+.snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Responsive padding for sections */
+@media (max-width: 640px) {
+  .py-20 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 641px) {
+  .py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 }

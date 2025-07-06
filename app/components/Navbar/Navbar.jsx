@@ -3,25 +3,38 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { 
   Menu, 
   X, 
   Play, 
-  Wallet, 
   Trophy, 
   Users, 
   BookOpen, 
-  Github,
   ExternalLink,
   ChevronDown,
-  Home
+  LogOut,
+  User,
+  Settings
 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+
+// Dynamically import ConnectWallet to prevent SSR issues
+const ConnectWallet = dynamic(() => import('../Wallet/ConnectWallet'), {
+  ssr: false,
+  loading: () => (
+    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+      Connect Wallet
+    </button>
+  ),
+});
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMatrixOpen, setIsMatrixOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const { isAuthenticated, user, signOut } = useAuth();
 
   // Handle scroll effect
   useEffect(() => {
@@ -32,17 +45,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle wallet connection
-  const handleWalletConnect = () => {
-    setIsWalletConnected(!isWalletConnected);
-    // Here you would integrate with actual wallet connection
-  };
-
   // Close all dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
       setIsOpen(false);
       setIsMatrixOpen(false);
+      setIsUserMenuOpen(false);
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -53,6 +61,11 @@ export default function Navbar() {
     { name: 'How It Works', href: '/how-it-works', icon: BookOpen },
     { name: 'Rewards', href: '/rewards', icon: Trophy },
   ];
+
+  const handleSignOut = () => {
+    signOut();
+    setIsUserMenuOpen(false);
+  };
 
   return (
     <>
@@ -132,25 +145,74 @@ export default function Navbar() {
                 <ExternalLink className="w-2 h-2 sm:w-3 sm:h-3" />
               </motion.a>
 
+              {/* User Menu or Auth Status */}
+              {isAuthenticated ? (
+                <div className="relative">
+                  <motion.button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="hidden sm:block text-sm">{user?.username || 'User'}</span>
+                    <ChevronDown className="w-3 h-3" />
+                  </motion.button>
+
+                  {/* User Dropdown Menu */}
+                  <AnimatePresence>
+                    {isUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-md border border-gray-800 rounded-lg shadow-xl"
+                      >
+                        <div className="p-2">
+                          <div className="px-3 py-2 text-sm text-gray-400 border-b border-gray-700 mb-2">
+                            <div className="font-semibold text-white">{user?.username || 'User'}</div>
+                            <div className="text-xs">{user?.email}</div>
+                          </div>
+                          
+                          <motion.a
+                            href="/portfolio"
+                            className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded transition-colors"
+                            whileHover={{ x: 5 }}
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <Users className="w-4 h-4" />
+                            <span>My Portfolio</span>
+                          </motion.a>
+                          
+                          <motion.button
+                            onClick={handleSignOut}
+                            className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-300 hover:text-red-400 hover:bg-gray-800 rounded transition-colors w-full"
+                            whileHover={{ x: 5 }}
+                          >
+                            <LogOut className="w-4 h-4" />
+                            <span>Sign Out</span>
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <motion.a
+                  href="/auth"
+                  className="flex items-center space-x-1 sm:space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <User className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">Sign In</span>
+                </motion.a>
+              )}
+
               {/* Wallet Connect Button */}
-              <motion.button
-                onClick={handleWalletConnect}
-                className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all duration-200 text-xs sm:text-sm ${
-                  isWalletConnected
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-red-600 hover:bg-red-700 text-white'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Wallet className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">
-                  {isWalletConnected ? 'Connected' : 'Connect Wallet'}
-                </span>
-                <span className="sm:hidden">
-                  {isWalletConnected ? '✓' : 'Wallet'}
-                </span>
-              </motion.button>
+              <ConnectWallet />
 
               {/* Mobile menu button */}
               <motion.button
@@ -200,129 +262,105 @@ export default function Navbar() {
                   whileHover={{ x: 10 }}
                   onClick={() => setIsOpen(false)}
                 >
-                  <Trophy className="w-4 h-4" />
-                  <span>Matrix</span>
-                </motion.a>
-                
-                {/* Mobile Portfolio Link */}
-                <motion.a
-                  href="/portfolio"
-                  className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200 py-2 text-sm"
-                  whileHover={{ x: 10 }}
-                  onClick={() => setIsOpen(false)}
-                >
                   <Users className="w-4 h-4" />
                   <span>Portfolio</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-4 h-4" />
                 </motion.a>
+
+                {/* Mobile Auth Link */}
+                {!isAuthenticated && (
+                  <motion.a
+                    href="/auth"
+                    className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200 py-2 text-sm"
+                    whileHover={{ x: 10 }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Sign In</span>
+                  </motion.a>
+                )}
+
+                {/* Mobile Sign Out */}
+                {isAuthenticated && (
+                  <motion.button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center space-x-3 text-gray-300 hover:text-red-400 transition-colors duration-200 py-2 text-sm w-full"
+                    whileHover={{ x: 10 }}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                  </motion.button>
+                )}
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Matrix Dropdown (Desktop) */}
+      {/* Matrix Dropdown */}
       <AnimatePresence>
         {isMatrixOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-14 sm:top-16 left-0 right-0 z-30 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 hidden md:block"
+            className="absolute top-full left-0 mt-2 w-80 bg-black/95 backdrop-blur-md border border-gray-800 rounded-lg shadow-xl hidden md:block"
             onMouseEnter={() => setIsMatrixOpen(true)}
             onMouseLeave={() => setIsMatrixOpen(false)}
           >
-            <div className="youtube-container py-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                
+            <div className="p-4">
+              <div className="space-y-4">
                 {/* Top Contributors */}
-                <div className="space-y-4">
-                  <h3 className="text-white font-semibold mb-4 flex items-center space-x-2 text-sm lg:text-base">
-                    <Trophy className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
-                    <span>Top Contributors</span>
-                  </h3>
-                  <div className="space-y-3">
+                <div>
+                  <h3 className="text-red-400 font-semibold mb-3">Top Contributors</h3>
+                  <div className="space-y-2">
                     {[
-                      { name: 'CryptoWhale', rank: 1, points: '2.5K', avatar: '🐋' },
-                      { name: 'DataMaster', rank: 2, points: '2.1K', avatar: '👨‍💻' },
-                      { name: 'PrivacyGuru', rank: 3, points: '1.8K', avatar: '🛡️' },
-                    ].map((contributor) => (
-                      <motion.div 
-                        key={contributor.rank} 
-                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors duration-200"
-                        whileHover={{ scale: 1.02 }}
+                      { name: 'DataPioneer', tokens: '15,420', rank: 1 },
+                      { name: 'PrivacyChampion', tokens: '12,890', rank: 2 },
+                      { name: 'SovereignUser', tokens: '10,234', rank: 3 }
+                    ].map((contributor, index) => (
+                      <motion.div
+                        key={contributor.name}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-center justify-between p-2 rounded bg-gray-800/50"
                       >
-                        <div className="flex items-center space-x-3">
-                          <span className="text-xl lg:text-2xl">{contributor.avatar}</span>
-                          <div>
-                            <div className="text-white font-medium text-sm lg:text-base">{contributor.name}</div>
-                            <div className="text-gray-400 text-xs">#{contributor.rank} Rank</div>
-                          </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-red-400 font-bold">#{contributor.rank}</span>
+                          <span className="text-gray-300">{contributor.name}</span>
                         </div>
-                        <div className="text-right">
-                          <div className="text-red-500 font-bold text-sm lg:text-base">{contributor.points}</div>
-                          <div className="text-gray-400 text-xs">Points</div>
-                        </div>
+                        <span className="text-red-400 font-semibold">{contributor.tokens}</span>
                       </motion.div>
                     ))}
                   </div>
                 </div>
 
                 {/* Recent Activity */}
-                <div className="space-y-4">
-                  <h3 className="text-white font-semibold mb-4 flex items-center space-x-2 text-sm lg:text-base">
-                    <Users className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
-                    <span>Recent Activity</span>
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { user: 'Alice', action: 'contributed 50 videos', time: '2m ago' },
-                      { user: 'Bob', action: 'earned 100 points', time: '5m ago' },
-                      { user: 'Charlie', action: 'joined the DAO', time: '10m ago' },
-                    ].map((activity, index) => (
-                      <motion.div 
-                        key={index} 
-                        className="flex items-center space-x-3 p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors duration-200"
-                        whileHover={{ scale: 1.02 }}
-                      >
-                        <div className="w-7 h-7 lg:w-8 lg:h-8 bg-red-600 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs lg:text-sm font-bold">
-                            {activity.user.charAt(0)}
-                          </span>
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-white text-xs lg:text-sm">
-                            <span className="font-medium">{activity.user}</span> {activity.action}
-                          </div>
-                          <div className="text-gray-400 text-xs">{activity.time}</div>
-                        </div>
-                      </motion.div>
-                    ))}
+                <div>
+                  <h3 className="text-red-400 font-semibold mb-3">Recent Activity</h3>
+                  <div className="space-y-2 text-sm text-gray-400">
+                    <div>• DataPioneer shared 47 videos</div>
+                    <div>• PrivacyChampion earned 1,200 tokens</div>
+                    <div>• New user joined the DAO</div>
                   </div>
                 </div>
 
-                {/* Quick Stats */}
-                <div className="space-y-4">
-                  <h3 className="text-white font-semibold mb-4 flex items-center space-x-2 text-sm lg:text-base">
-                    <Github className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
-                    <span>DAO Stats</span>
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3 lg:gap-4">
-                    {[
-                      { value: '1.2K', label: 'Active Members' },
-                      { value: '$45K', label: 'Total Rewards' },
-                      { value: '2.1M', label: 'Videos Tracked' },
-                      { value: '89%', label: 'Privacy Score' },
-                    ].map((stat, index) => (
-                      <motion.div 
-                        key={index}
-                        className="bg-gray-800 p-3 lg:p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-200"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className="text-lg lg:text-2xl font-bold text-red-500">{stat.value}</div>
-                        <div className="text-gray-400 text-xs">{stat.label}</div>
-                      </motion.div>
-                    ))}
+                {/* DAO Stats */}
+                <div>
+                  <h3 className="text-red-400 font-semibold mb-3">DAO Stats</h3>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="bg-gray-800/50 p-2 rounded">
+                      <div className="text-red-400 font-semibold">50K+</div>
+                      <div className="text-gray-400">Active Users</div>
+                    </div>
+                    <div className="bg-gray-800/50 p-2 rounded">
+                      <div className="text-red-400 font-semibold">2.5M</div>
+                      <div className="text-gray-400">Videos Shared</div>
+                    </div>
                   </div>
                 </div>
               </div>

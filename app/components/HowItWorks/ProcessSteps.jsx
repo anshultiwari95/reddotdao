@@ -5,15 +5,15 @@ import { Download, Shield, Database, Users, CheckCircle } from 'lucide-react';
 
 export default function ProcessSteps() {
   const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
+    initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: "easeOut" }
+    transition: { duration: 1.2, ease: "easeOut" }
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.3
       }
     }
   };
@@ -51,7 +51,7 @@ export default function ProcessSteps() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-50px" }}
         className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
       >
         {processSteps.map((step, index) => (
@@ -59,11 +59,21 @@ export default function ProcessSteps() {
             key={index}
             variants={fadeInUp}
             className="relative group"
+            whileHover={{ y: -5 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="bg-black/20 backdrop-blur-sm border border-red-500/30 rounded-2xl p-8 h-full transition-all duration-300 hover:border-red-400/50 hover:bg-black/30">
-              <div className="flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-full mb-6 group-hover:bg-red-500/30 transition-colors">
+            <motion.div 
+              className="bg-black/20 backdrop-blur-sm border border-red-500/30 rounded-2xl p-8 h-full transition-all duration-300 hover:border-red-400/50 hover:bg-black/30"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <motion.div 
+                className="flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-full mb-6 group-hover:bg-red-500/30 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 {step.icon}
-              </div>
+              </motion.div>
               <h3 className="text-2xl font-bold mb-4 text-red-400">
                 {step.title}
               </h3>
@@ -72,13 +82,20 @@ export default function ProcessSteps() {
               </p>
               <ul className="space-y-2">
                 {step.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-sm text-gray-400">
+                  <motion.li 
+                    key={featureIndex} 
+                    className="flex items-center text-sm text-gray-400"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 + featureIndex * 0.15 }}
+                    viewport={{ once: true }}
+                  >
                     <CheckCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
                     {feature}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           </motion.div>
         ))}
       </motion.div>

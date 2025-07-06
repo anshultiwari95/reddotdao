@@ -5,15 +5,15 @@ import { Globe, Eye, Monitor, BarChart3 } from 'lucide-react';
 
 export default function UserJourney() {
   const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
+    initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: "easeOut" }
+    transition: { duration: 1.2, ease: "easeOut" }
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.4
       }
     }
   };
@@ -48,10 +48,10 @@ export default function UserJourney() {
   return (
     <section className="container mx-auto px-4 py-16">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
         className="text-center mb-12"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
@@ -63,7 +63,7 @@ export default function UserJourney() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-50px" }}
         className="max-w-4xl mx-auto"
       >
         <div className="space-y-8">
@@ -72,22 +72,40 @@ export default function UserJourney() {
               key={index}
               variants={fadeInUp}
               className="flex items-start space-x-6"
+              whileHover={{ x: 10 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <div className="flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-full flex-shrink-0">
+              <motion.div 
+                className="flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-full flex-shrink-0"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 {journey.icon}
-              </div>
+              </motion.div>
               <div className="flex-1">
-                <div className="flex items-center mb-2">
+                <motion.div 
+                  className="flex items-center mb-2"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.0, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
                   <span className="text-red-500 font-bold text-lg mr-3">
                     {journey.step}
                   </span>
                   <h3 className="text-2xl font-bold text-red-400">
                     {journey.title}
                   </h3>
-                </div>
-                <p className="text-gray-300 text-lg leading-relaxed">
+                </motion.div>
+                <motion.p 
+                  className="text-gray-300 text-lg leading-relaxed"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0, delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
                   {journey.description}
-                </p>
+                </motion.p>
               </div>
             </motion.div>
           ))}

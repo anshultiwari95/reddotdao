@@ -5,15 +5,15 @@ import { Lock, Network, Key, Server } from 'lucide-react';
 
 export default function TechnicalArchitecture() {
   const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
+    initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: "easeOut" }
+    transition: { duration: 1.2, ease: "easeOut" }
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.3
       }
     }
   };
@@ -44,10 +44,10 @@ export default function TechnicalArchitecture() {
   return (
     <section className="container mx-auto px-4 py-16">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
         className="text-center mb-12"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
@@ -62,7 +62,7 @@ export default function TechnicalArchitecture() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-50px" }}
         className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {technicalFeatures.map((feature, index) => (
@@ -70,10 +70,16 @@ export default function TechnicalArchitecture() {
             key={index}
             variants={fadeInUp}
             className="bg-black/20 backdrop-blur-sm border border-red-500/30 rounded-xl p-6 text-center hover:border-red-400/50 hover:bg-black/30 transition-all duration-300"
+            whileHover={{ y: -5, scale: 1.02 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="flex items-center justify-center w-12 h-12 bg-red-500/20 rounded-full mx-auto mb-4">
+            <motion.div 
+              className="flex items-center justify-center w-12 h-12 bg-red-500/20 rounded-full mx-auto mb-4"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               {feature.icon}
-            </div>
+            </motion.div>
             <h3 className="text-lg font-semibold mb-2 text-red-400">
               {feature.title}
             </h3>
