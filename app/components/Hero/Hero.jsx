@@ -4,47 +4,71 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-      
-      {/* Intro Description */}
-      <motion.p
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.1 }}
-        className="text-sm sm:text-base text-blue-900 uppercase tracking-widest mb-2 font-bold"
-      >
-        The Future of Data Ownership Starts Here
-      </motion.p>
-
-      {/* Glowing Main Heading */}
+    <div className="relative w-full h-screen flex flex-col justify-center items-center px-6 text-center">
+      {/* 🚀 Glitch Flicker Neon Headline */}
       <motion.h1
-        initial={{ opacity: 0, y: 40 }}
+        className="text-5xl md:text-7xl font-extrabold mb-6 text-gray-200 leading-tight tracking-tight animate-[flicker_2.5s_infinite]"
+        style={{
+          animationName: 'flicker',
+          animationDuration: '2.5s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'steps(1, end)',
+        }}
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-4xl sm:text-5xl font-orbitron tracking-wide font-bold text-blue-700 drop-shadow-[0_0_12px_rgba(3,105,161,0.25)]"
       >
-        Welcome to <span className="text-blue-800 font-bold drop-shadow-[0_0_8px_rgba(3,105,161,0.4)]">BitsNebula</span>
+        Take Back <br className="hidden md:block" />
+        What’s Rightfully Yours
       </motion.h1>
 
-      {/* Main Subheading */}
+      {/* 🔥 Subtext */}
       <motion.p
+        className="text-base md:text-lg text-gray-400 max-w-2xl mt-4 leading-relaxed"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3 }}
-        className="mt-4 text-lg sm:text-xl text-neutral-700 max-w-2xl"
       >
-        A futuristic data DAO powered by your YouTube history. Contribute your watch data to help train ethical AI models — earn rewards and shape the future of decentralized intelligence.
+        Every video you watched. Every search you made. Every like, every scroll — all of it built a profile you’ve never seen, and never controlled.
+        <br className="hidden md:block" />
+        <span className="text-gray-100 font-semibold">
+          Now, it’s time to reclaim your narrative — your privacy, your power.
+        </span>
       </motion.p>
 
-      {/* Call to Action */}
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.6 }}
-        className="mt-6 text-base sm:text-lg text-gray-600"
+      {/* ⬇️ Scroll Indicator */}
+      <motion.div
+        className="absolute bottom-10 text-red-500 text-3xl animate-bounce cursor-pointer"
+        onClick={() => {
+          const scrollTarget = document.getElementById('scroll-wrapper');
+          scrollTarget?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
       >
-        Take control of your digital footprint — and profit from it.
-      </motion.p>
-    </section>
+        ↓
+      </motion.div>
+
+      {/* 🔧 Glitch Flicker Animation */}
+      <style>
+        {`
+          @keyframes flicker {
+            0% { text-shadow: 0 0 1px #ff0000; opacity: 1; }
+            5% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff1a1a; }
+            10% { opacity: 0.8; }
+            15% { opacity: 1; text-shadow: 0 0 2px #ff0000; }
+            25% { opacity: 0.6; }
+            35% { text-shadow: 0 0 4px #ff3333, 0 0 8px #ff1a1a; }
+            45% { opacity: 1; text-shadow: 0 0 12px #ff0000; }
+            50% { opacity: 0.7; }
+            60% { opacity: 1; text-shadow: 0 0 15px #ff1a1a; }
+            70% { opacity: 0.9; }
+            85% { text-shadow: 0 0 5px #ff0000; }
+            100% { text-shadow: 0 0 1px #ff0000; opacity: 1; }
+          }
+        `}
+      </style>
+    </div>
   );
 }

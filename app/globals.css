@@ -1,23 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-    @apply font-inter;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-orbitron;
-  }
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  overflow-x: hidden;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Optional: Neon text glow utility */
+.drop-shadow-glow {
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+/* ✅ Hides scrollbar while keeping scroll behavior */
+::-webkit-scrollbar {
+  display: none;
+}
+
+body,
+div {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
