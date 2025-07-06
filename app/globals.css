@@ -2,24 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap');
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
 body {
-  background-color: #0a0a0a;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
   overflow-x: hidden;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-/* Optional: Neon text glow utility */
-.drop-shadow-glow {
-  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-}
-
-/* ✅ Hides scrollbar while keeping scroll behavior */
+/* Hide scrollbars completely */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -28,4 +27,271 @@ body,
 div {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* YouTube-inspired color palette */
+:root {
+  --youtube-red: #ff0000;
+  --youtube-red-dark: #cc0000;
+  --youtube-red-light: #ff4444;
+  --youtube-gray: #f9f9f9;
+  --youtube-dark: #0f0f0f;
+  --youtube-dark-gray: #282828;
+  --youtube-light-gray: #606060;
+  --youtube-white: #ffffff;
+  --youtube-black: #000000;
+}
+
+/* YouTube-style button animations */
+.youtube-btn {
+  @apply bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+}
+
+.youtube-btn-secondary {
+  @apply bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95;
+  border: 1px solid #404040;
+}
+
+/* YouTube-style card */
+.youtube-card {
+  @apply bg-gray-900 rounded-xl p-6 transition-all duration-300 hover:bg-gray-800;
+  border: 1px solid #333;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* YouTube-style input */
+.youtube-input {
+  @apply bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-red-500 transition-colors duration-200;
+}
+
+/* YouTube-style gradient text */
+.youtube-gradient-text {
+  background: linear-gradient(135deg, #ff0000 0%, #ff4444 50%, #ff6666 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* YouTube-style glow effects */
+.youtube-glow {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.youtube-glow-text {
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* YouTube-style loading animation */
+@keyframes youtube-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.youtube-pulse {
+  animation: youtube-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* YouTube-style hover effects */
+.youtube-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.youtube-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* YouTube-style focus states */
+.youtube-focus:focus {
+  outline: 2px solid #ff0000;
+  outline-offset: 2px;
+}
+
+/* YouTube-style animations */
+@keyframes youtube-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.youtube-fade-in {
+  animation: youtube-fade-in 0.6s ease-out;
+}
+
+@keyframes youtube-slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.youtube-slide-in {
+  animation: youtube-slide-in 0.8s ease-out;
+}
+
+/* YouTube-style responsive text */
+.youtube-text-responsive {
+  @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
+}
+
+/* YouTube-style grid */
+.youtube-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* YouTube-style container */
+.youtube-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* YouTube-style section */
+.youtube-section {
+  @apply py-16 md:py-24;
+}
+
+/* YouTube-style badge */
+.youtube-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  background: linear-gradient(135deg, #ff0000 0%, #ff4444 100%);
+  color: white;
+}
+
+/* YouTube-style divider */
+.youtube-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #ff0000 50%, transparent 100%);
+  margin: 2rem 0;
+}
+
+/* YouTube-style backdrop blur */
+.youtube-backdrop {
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* YouTube-style glass effect */
+.youtube-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* YouTube-style neon effect */
+@keyframes youtube-neon {
+  0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000; }
+  50% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; }
+}
+
+.youtube-neon {
+  animation: youtube-neon 2s ease-in-out infinite alternate;
+}
+
+/* Full-screen scroll snap sections */
+.full-screen-section {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
+/* Smooth scroll container */
+.smooth-scroll-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for smooth scroll container */
+.smooth-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.smooth-scroll-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Ensure no horizontal overflow */
+* {
+  box-sizing: border-box;
+}
+
+/* Improved spacing for sections */
+.full-screen-section > * {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Enhanced responsive spacing */
+@media (max-width: 640px) {
+  .full-screen-section {
+    padding: 0.5rem 0;
+  }
+  
+  /* Mobile-specific optimizations */
+  .youtube-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Ensure touch targets are large enough */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .full-screen-section {
+    padding: 1rem 0;
+  }
+  
+  /* Tablet-specific optimizations */
+  .youtube-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  /* Optimize for tablet landscape */
+  @media (orientation: landscape) {
+    .full-screen-section {
+      padding: 0.75rem 0;
+    }
+  }
+}
+
+@media (min-width: 1025px) {
+  .full-screen-section {
+    padding: 1.5rem 0;
+  }
+  
+  /* Desktop-specific optimizations */
+  .youtube-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Additional responsive utilities */
+@media (max-width: 480px) {
+  /* Extra small mobile optimizations */
+  .text-4xl {
+    font-size: 1.875rem;
+  }
+  
+  .text-5xl {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  /* Large desktop optimizations */
+  .youtube-container {
+    max-width: 80rem;
+  }
 }

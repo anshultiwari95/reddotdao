@@ -1,13 +1,14 @@
 'use client';
 import TwoColumnLayout from './TwoColumnLayout';
+import { Vote } from 'lucide-react';
 
 export default function RedDotDAO() {
   return (
     <TwoColumnLayout
-      title="What RedDotDAO Offers"
-      content="RedDotDAO lets you own your data, visualize trends, and earn rewards by contributing anonymously — flipping the power."
-      image="https://placehold.co/600x400/111/FF1A1A?text=RedDotDAO"
-      reverse
+      title="Join RedDotDAO Community"
+      content="RedDotDAO is a decentralized community that empowers users to reclaim their data sovereignty. Through blockchain technology, we create a transparent ecosystem where users own their data, earn rewards for contributions, and participate in governance decisions that shape the future of digital privacy."
+      icon={Vote}
+      reverse={true}
     />
   );
 }
