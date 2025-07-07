@@ -1,8 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RedDotDAO - YouTube Data Sovereignty Platform
+
+A Next.js application focused on YouTube data sovereignty using Web3 technologies.
 
 ## Getting Started
 
-First, run the development server:
+First, set up your environment variables:
+
+1. Create a `.env.local` file in the root directory
+2. Add the following variables:
+
+```env
+# Web3Auth Configuration
+NEXT_PUBLIC_WEB3AUTH_CLIENT_ID=YOUR_WEB3AUTH_CLIENT_ID
+
+# WalletConnect Configuration
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_WALLETCONNECT_PROJECT_ID
+
+# App Configuration
+NEXT_PUBLIC_APP_NAME=RedDotDAO
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Getting API Keys
+
+1. **Web3Auth Client ID**: 
+   - Go to [Web3Auth Dashboard](https://dashboard.web3auth.io/)
+   - Create a new project
+   - Copy your Client ID
+
+2. **WalletConnect Project ID**:
+   - Go to [WalletConnect Cloud](https://cloud.walletconnect.com/)
+   - Create a new project
+   - Copy your Project ID
+
+Then run the development server:
 
 ```bash
 npm run dev

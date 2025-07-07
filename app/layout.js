@@ -1,8 +1,10 @@
 // app/layout.jsx
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Web3Provider from './providers/Web3Provider';
 import { AuthProvider } from './contexts/AuthContext';
+import { AuthModalProvider } from './contexts/AuthModalContext';
+import Web3Provider from './providers/Web3Provider';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,11 +17,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
+        <ErrorBoundary>
           <Web3Provider>
-            {children}
+            <AuthProvider>
+              <AuthModalProvider>
+                {children}
+              </AuthModalProvider>
+            </AuthProvider>
           </Web3Provider>
-        </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

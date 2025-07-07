@@ -21,15 +21,17 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     setMounted(true);
     // Check for existing authentication on mount
-    const savedUser = localStorage.getItem('youtube-dao-user');
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser);
-        setUser(userData);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing saved user data:', error);
-        localStorage.removeItem('youtube-dao-user');
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('youtube-dao-user');
+      if (savedUser) {
+        try {
+          const userData = JSON.parse(savedUser);
+          setUser(userData);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Error parsing saved user data:', error);
+          localStorage.removeItem('youtube-dao-user');
+        }
       }
     }
     setLoading(false);
@@ -52,7 +54,9 @@ export function AuthProvider({ children }) {
       
       setUser(userData);
       setIsAuthenticated(true);
-      localStorage.setItem('youtube-dao-user', JSON.stringify(userData));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('youtube-dao-user', JSON.stringify(userData));
+      }
       
       return { success: true, user: userData };
     } catch (error) {
@@ -78,7 +82,9 @@ export function AuthProvider({ children }) {
       
       setUser(userData);
       setIsAuthenticated(true);
-      localStorage.setItem('youtube-dao-user', JSON.stringify(userData));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('youtube-dao-user', JSON.stringify(userData));
+      }
       
       return { success: true, user: userData };
     } catch (error) {
@@ -90,13 +96,17 @@ export function AuthProvider({ children }) {
   const signOut = () => {
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('youtube-dao-user');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('youtube-dao-user');
+    }
   };
 
   const updateUser = (updates) => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
-    localStorage.setItem('youtube-dao-user', JSON.stringify(updatedUser));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('youtube-dao-user', JSON.stringify(updatedUser));
+    }
   };
 
   const value = {

@@ -23,22 +23,14 @@ body {
   padding: 0;
 }
 
-/* Hide scrollbars completely */
+/* Completely hide all scrollbars */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #ef4444;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #dc2626;
+  display: none !important; /* Chrome, Safari, Opera */
 }
 
 /* Hide scrollbars but keep functionality */
@@ -46,10 +38,19 @@ body {
   scroll-behavior: smooth;
 }
 
-body,
-div {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+/* Ensure no scrollbars on any element */
+html, body, div, section, main, aside {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+main::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+  display: none !important;
 }
 
 /* YouTube-inspired color palette */
@@ -611,4 +612,48 @@ div {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
+}
+
+/* Custom RainbowKit Modal Styling */
+.w3m-overlay {
+  backdrop-filter: blur(10px) !important;
+}
+
+.w3m-modal {
+  background: #1a1a1a !important;
+  border: 1px solid #ef4444 !important;
+  border-radius: 12px !important;
+}
+
+.w3m-header {
+  background: #1a1a1a !important;
+}
+
+.w3m-button {
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+.w3m-button:hover {
+  background: #dc2626 !important;
+}
+
+.w3m-wallet-button {
+  background: #262626 !important;
+  border: 1px solid #404040 !important;
+  border-radius: 8px !important;
+}
+
+.w3m-wallet-button:hover {
+  background: #404040 !important;
+  border-color: #ef4444 !important;
+}
+
+.w3m-text {
+  color: white !important;
+}
+
+.w3m-text-secondary {
+  color: #9ca3af !important;
 }

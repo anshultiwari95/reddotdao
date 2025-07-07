@@ -5,12 +5,9 @@ import { Play, Shield, Users, TrendingUp, Github, Twitter, Linkedin, ArrowRight,
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-t from-gray-900 to-black text-gray-400 py-6 sm:py-8 px-4 border-t border-gray-800 relative overflow-hidden flex items-center justify-center min-h-screen">
-      {/* Background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute bottom-10 left-4 sm:left-10 w-24 sm:w-32 h-24 sm:h-32 bg-red-500 rounded-full blur-3xl"></div>
-        <div className="absolute top-10 right-4 sm:right-10 w-20 sm:w-24 h-20 sm:h-24 bg-red-600 rounded-full blur-2xl"></div>
-      </div>
+    <footer className="w-full bg-transparent text-gray-400 py-6 sm:py-8 px-4 relative overflow-hidden flex items-center justify-center min-h-screen">
+      {/* Transparent overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
 
       <div className="youtube-container relative z-10 w-full max-w-6xl mx-auto">
         {/* Compact Hero section */}
@@ -25,7 +22,7 @@ export default function Footer() {
           >
             <div className="relative group">
               {/* YouTube-style symbolic representation */}
-              <div className="relative rounded-xl overflow-hidden youtube-hover bg-gradient-to-br from-gray-900 to-black border border-gray-800 p-6 sm:p-8">
+              <div className="relative rounded-xl overflow-hidden youtube-hover bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 p-6 sm:p-8">
                 {/* Main large icon - Data Ownership */}
                 <div className="flex justify-center mb-4 sm:mb-6">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center shadow-2xl youtube-glow">
@@ -36,19 +33,19 @@ export default function Footer() {
                 {/* Symbolic icon grid - Data Sovereignty */}
                 <div className="grid grid-cols-3 gap-3 sm:gap-4">
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-lg flex items-center justify-center shadow-lg border border-gray-700">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-lg border border-gray-700/50">
                       <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
                     </div>
                     <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
                   </div>
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-lg flex items-center justify-center shadow-lg border border-gray-700">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-lg border border-gray-700/50">
                       <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
                     </div>
                     <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
                   </div>
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-lg flex items-center justify-center shadow-lg border border-gray-700">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-lg border border-gray-700/50">
                       <Users className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
                     </div>
                     <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
@@ -83,19 +80,19 @@ export default function Footer() {
               {/* Compact feature highlights */}
               <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-3 sm:mt-4">
                 <div className="flex flex-col items-center space-y-1">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600 rounded-lg flex items-center justify-center">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600/80 backdrop-blur-sm rounded-lg flex items-center justify-center">
                     <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <span className="text-xs text-gray-400 text-center">Privacy</span>
                 </div>
                 <div className="flex flex-col items-center space-y-1">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600 rounded-lg flex items-center justify-center">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600/80 backdrop-blur-sm rounded-lg flex items-center justify-center">
                     <DollarSign className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <span className="text-xs text-gray-400 text-center">Ownership</span>
                 </div>
                 <div className="flex flex-col items-center space-y-1">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600 rounded-lg flex items-center justify-center">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-600/80 backdrop-blur-sm rounded-lg flex items-center justify-center">
                     <Users className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <span className="text-xs text-gray-400 text-center">Community</span>
@@ -112,7 +109,7 @@ export default function Footer() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <div className="youtube-card p-4 sm:p-6">
+            <div className="youtube-card p-4 sm:p-6 bg-gray-900/50 backdrop-blur-sm border border-gray-700/50">
               <div className="text-center space-y-3 sm:space-y-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600 rounded-full flex items-center justify-center mx-auto">
                   <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -147,15 +144,15 @@ export default function Footer() {
 
             {/* Compact Stats */}
             <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
-              <div className="youtube-card p-2 sm:p-3">
+              <div className="youtube-card p-2 sm:p-3 bg-gray-900/50 backdrop-blur-sm border border-gray-700/50">
                 <div className="text-sm sm:text-lg font-bold text-red-500">10K+</div>
                 <div className="text-xs text-gray-400">Users</div>
               </div>
-              <div className="youtube-card p-2 sm:p-3">
+              <div className="youtube-card p-2 sm:p-3 bg-gray-900/50 backdrop-blur-sm border border-gray-700/50">
                 <div className="text-sm sm:text-lg font-bold text-red-500">50M+</div>
                 <div className="text-xs text-gray-400">Videos</div>
               </div>
-              <div className="youtube-card p-2 sm:p-3">
+              <div className="youtube-card p-2 sm:p-3 bg-gray-900/50 backdrop-blur-sm border border-gray-700/50">
                 <div className="text-sm sm:text-lg font-bold text-red-500">$100K+</div>
                 <div className="text-xs text-gray-400">Paid</div>
               </div>
@@ -182,7 +179,7 @@ export default function Footer() {
             <div className="flex space-x-2 sm:space-x-3">
               <motion.a
                 href="#"
-                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
+                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -190,7 +187,7 @@ export default function Footer() {
               </motion.a>
               <motion.a
                 href="#"
-                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
+                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -198,7 +195,7 @@ export default function Footer() {
               </motion.a>
               <motion.a
                 href="#"
-                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
+                className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800/50 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -242,7 +239,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center mt-4 sm:mt-6 pt-4 border-t border-gray-800">
+        <div className="text-center mt-4 sm:mt-6 pt-4 border-t border-gray-700/50">
           <p className="text-xs text-gray-500">
             © 2024 RedDotDAO. All rights reserved. Built for data sovereignty.
           </p>

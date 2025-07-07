@@ -1,45 +1,32 @@
 import { http, createConfig } from 'wagmi';
-import { mainnet, sepolia, polygon, optimism, arbitrum, base } from 'wagmi/chains';
-import { 
-  injected, 
-  walletConnect, 
-  coinbaseWallet, 
-  safe,
-  metaMask
-} from '@wagmi/connectors';
+import { mainnet, sepolia } from 'wagmi/chains';
+import { injected, metaMask, walletConnect, coinbaseWallet } from 'wagmi/connectors';
+import { QueryClient } from '@tanstack/react-query';
 
-const projectId = 'demo-project-id'; // Demo project ID for testing
+// Create a query client
+export const queryClient = new QueryClient();
 
+
+
+// Create wagmi config
 export const config = createConfig({
-  chains: [mainnet, sepolia, polygon, optimism, arbitrum, base],
+  chains: [mainnet, sepolia],
   connectors: [
     injected(),
     metaMask(),
-    walletConnect({ 
-      projectId,
-      showQrModal: true,
-      qrModalOptions: {
-        themeMode: 'dark',
-        themeVariables: {
-          '--w3m-accent-color': '#ef4444',
-          '--w3m-background-color': '#1a1a1a',
-          '--w3m-overlay-background-color': 'rgba(0, 0, 0, 0.95)',
-        }
-      }
+    walletConnect({
+      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_WALLETCONNECT_PROJECT_ID',
     }),
-    coinbaseWallet({ 
-      appName: 'RedDotDAO',
-      appLogoUrl: 'https://your-logo-url.com/logo.png'
+    coinbaseWallet({
+      appName: process.env.NEXT_PUBLIC_APP_NAME || 'RedDotDAO',
+      appLogoUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reddot-logo.png`,
     }),
-    safe(),
   ],
-  ssr: false, // Disable SSR for wagmi
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
-    [polygon.id]: http(),
-    [optimism.id]: http(),
-    [arbitrum.id]: http(),
-    [base.id]: http(),
   },
-}); 
+});
+
+// Export the config
+export default config; 

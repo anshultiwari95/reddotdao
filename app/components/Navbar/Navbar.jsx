@@ -15,12 +15,15 @@ import {
   ChevronDown,
   LogOut,
   User,
-  Settings
+  Settings,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useAuthModal } from '../../contexts/AuthModalContext';
+import Web3AuthButton from '../Web3AuthButton';
 
 // Dynamically import ConnectWallet to prevent SSR issues
-const ConnectWallet = dynamic(() => import('../Wallet/ConnectWallet'), {
+const ConnectWallet = dynamic(() => import('../ConnectWallet'), {
   ssr: false,
   loading: () => (
     <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
@@ -35,6 +38,7 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, user, signOut } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   // Handle scroll effect
   useEffect(() => {
@@ -47,10 +51,23 @@ export default function Navbar() {
 
   // Close all dropdowns when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (event) => {
+      // Check if click is outside of user menu
+      const userMenu = document.querySelector('[data-user-menu]');
+      const userMenuButton = document.querySelector('[data-user-menu-button]');
+      
+      if (userMenu && userMenuButton) {
+        const isClickInsideMenu = userMenu.contains(event.target);
+        const isClickOnButton = userMenuButton.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnButton) {
+          setIsUserMenuOpen(false);
+        }
+      }
+      
+      // Close other dropdowns
       setIsOpen(false);
       setIsMatrixOpen(false);
-      setIsUserMenuOpen(false);
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -133,86 +150,100 @@ export default function Navbar() {
             {/* Right side buttons */}
             <div className="flex items-center space-x-2 sm:space-x-4">
               
-              {/* Portfolio Link */}
-              <motion.a
-                href="/portfolio"
-                className="hidden sm:flex items-center space-x-1 sm:space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="text-xs sm:text-sm">Portfolio</span>
-                <ExternalLink className="w-2 h-2 sm:w-3 sm:h-3" />
-              </motion.a>
-
-              {/* User Menu or Auth Status */}
-              {isAuthenticated ? (
-                <div className="relative">
-                  <motion.button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="hidden sm:block text-sm">{user?.username || 'User'}</span>
-                    <ChevronDown className="w-3 h-3" />
-                  </motion.button>
-
-                  {/* User Dropdown Menu */}
-                  <AnimatePresence>
-                    {isUserMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-md border border-gray-800 rounded-lg shadow-xl"
-                      >
-                        <div className="p-2">
-                          <div className="px-3 py-2 text-sm text-gray-400 border-b border-gray-700 mb-2">
-                            <div className="font-semibold text-white">{user?.username || 'User'}</div>
-                            <div className="text-xs">{user?.email}</div>
-                          </div>
-                          
-                          <motion.a
-                            href="/portfolio"
-                            className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded transition-colors"
-                            whileHover={{ x: 5 }}
-                            onClick={() => setIsUserMenuOpen(false)}
-                          >
-                            <Users className="w-4 h-4" />
-                            <span>My Portfolio</span>
-                          </motion.a>
-                          
-                          <motion.button
-                            onClick={handleSignOut}
-                            className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-300 hover:text-red-400 hover:bg-gray-800 rounded transition-colors w-full"
-                            whileHover={{ x: 5 }}
-                          >
-                            <LogOut className="w-4 h-4" />
-                            <span>Sign Out</span>
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
+              {/* Portfolio and Sign In Group */}
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                {/* Portfolio Link */}
                 <motion.a
-                  href="/auth"
-                  className="flex items-center space-x-1 sm:space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  href="/portfolio"
+                  className="hidden sm:flex items-center space-x-1 sm:space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <User className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="text-xs sm:text-sm">Sign In</span>
+                  <Users className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">Portfolio</span>
+                  <ExternalLink className="w-2 h-2 sm:w-3 sm:h-3" />
                 </motion.a>
-              )}
 
-              {/* Wallet Connect Button */}
-              <ConnectWallet />
+                {/* User Menu or Auth Status */}
+                {isAuthenticated ? (
+                  <div className="relative">
+                    <motion.button
+                      data-user-menu-button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsUserMenuOpen(!isUserMenuOpen);
+                      }}
+                      className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200 p-1 rounded-lg hover:bg-gray-800/50"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      title="Click to open menu"
+                    >
+                      <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                        <User className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="hidden sm:block text-sm">{user?.username || 'User'}</span>
+                      <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                    </motion.button>
+
+                    {/* User Dropdown Menu */}
+                    <AnimatePresence>
+                      {isUserMenuOpen && (
+                        <motion.div
+                          data-user-menu
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full right-0 mt-2 w-56 bg-black/95 backdrop-blur-md border border-gray-800 rounded-lg shadow-xl z-50"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="p-3">
+                            <div className="px-3 py-3 text-sm text-gray-400 border-b border-gray-700 mb-3">
+                              <div className="font-semibold text-white">{user?.username || 'User'}</div>
+                              <div className="text-xs">{user?.email}</div>
+                            </div>
+                            
+                            <motion.a
+                              href="/portfolio"
+                              className="flex items-center space-x-3 px-3 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all duration-200"
+                              whileHover={{ x: 5 }}
+                              onClick={() => setIsUserMenuOpen(false)}
+                            >
+                              <Users className="w-4 h-4" />
+                              <span>My Portfolio</span>
+                            </motion.a>
+                            
+                            <motion.button
+                              onClick={() => {
+                                handleSignOut();
+                                setIsUserMenuOpen(false);
+                              }}
+                              className="flex items-center space-x-3 px-3 py-3 text-sm text-gray-300 hover:text-red-400 hover:bg-gray-800/50 rounded-lg transition-all duration-200 w-full"
+                              whileHover={{ x: 5 }}
+                            >
+                              <LogOut className="w-4 h-4" />
+                              <span>Sign Out</span>
+                            </motion.button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <motion.button
+                    onClick={openAuthModal}
+                    className="flex items-center space-x-1 sm:space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <User className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">Sign In</span>
+                  </motion.button>
+                )}
+              </div>
+
+              {/* Web3Auth Button */}
+              <Web3AuthButton />
 
               {/* Mobile menu button */}
               <motion.button
@@ -223,6 +254,9 @@ export default function Navbar() {
               >
                 {isOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
               </motion.button>
+
+              {/* Connect Wallet Button - Absolute right end */}
+              <ConnectWallet />
             </div>
           </div>
         </div>
@@ -267,17 +301,29 @@ export default function Navbar() {
                   <ExternalLink className="w-4 h-4" />
                 </motion.a>
 
+                {/* Mobile Web3Auth */}
+                <div className="py-2">
+                  <Web3AuthButton />
+                </div>
+
+                {/* Mobile Connect Wallet */}
+                <div className="py-2">
+                  <ConnectWallet />
+                </div>
+
                 {/* Mobile Auth Link */}
                 {!isAuthenticated && (
-                  <motion.a
-                    href="/auth"
-                    className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200 py-2 text-sm"
+                  <motion.button
+                    onClick={() => {
+                      openAuthModal();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200 py-2 text-sm w-full text-left"
                     whileHover={{ x: 10 }}
-                    onClick={() => setIsOpen(false)}
                   >
                     <User className="w-4 h-4" />
                     <span>Sign In</span>
-                  </motion.a>
+                  </motion.button>
                 )}
 
                 {/* Mobile Sign Out */}
@@ -368,6 +414,8 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+
     </>
   );
 } 
